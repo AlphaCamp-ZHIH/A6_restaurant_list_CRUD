@@ -1,0 +1,20 @@
+{
+  "name": "restaurant_list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "seed": "node ./models/seed/restaurantSeeder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.12.5"
+  }
+}
