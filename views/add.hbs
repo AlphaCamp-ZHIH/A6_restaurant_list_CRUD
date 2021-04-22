@@ -1,0 +1,33 @@
+<h1 class="mb-1 restaurant-show-title">新增餐廳</h1>
+<div class="container">
+  <div class="row mb-5">
+    {{!-- <div class="col-12 col-md-10 mx-auto"> --}}
+      <form action="/restaurants" method="POST" class="row col-12 col-md-10 mx-auto">
+        <label for="name" class="col-2 text-center ">餐廳名稱:</label>
+        <input class="col-9 mb-2" type="text" id="name" name="name">
+        <label for="name_en" class="col-2 text-center">英文名稱:</label>
+        <input class="col-9 mb-2" type="text" id="name_en" name="name_en">
+        <label for="category" class="col-2 text-center">類別:</label>
+        <input class="col-9 mb-2" type="text" id="category" name="category">
+        <label for="image" class="col-2 text-center">圖片:</label>
+        <input class="col-9 mb-2" type="text" id="image" name="image">
+        <label for="location" class="col-2 text-center">地點:</label>
+        <input class="col-9 mb-2" type="text" id="location" name="location">
+        <label for="phone" class="col-2 text-center">電話:</label>
+        <input class="col-9 mb-2" type="text" id="phone" name="phone">
+        <label for="google_map" class="col-2 text-center">地圖:</label>
+        <input class="col-9 mb-2" type="text" id="google_map" name="google_map">
+        <label for="rating" class="col-2 text-center">評分:</label>
+        <input class="col-9 mb-2" type="text" id="rating" name="rating">
+        <label for="description" class="col-2 text-center">描述:</label>
+        <textarea class="col-9 mb-5" type="text" id="description" name="description" style="height: 100px;"></textarea>
+        <div class="col-12 d-flex justify-content-center">
+          <a href="/" class="w-25 btn btn-primary m-1">back</a>
+          <button class="w-25 btn btn-primary m-1" type="submit">create</button>
+        </div>
+
+      </form>
+      {{!--
+    </div> --}}
+  </div>
+</div>

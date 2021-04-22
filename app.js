@@ -24,7 +24,18 @@ app.use(express.static("public"));
 
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: "hbs" }));
 app.set("view engine", "hbs");
-
+//create 餐廳
+app.get('/restaurants/add', (req, res) => {
+  res.render('add')
+});
+app.post('/restaurants', (req, res) => {
+  return Restaurants.create({ ...req.body })
+    .then(() => {
+      console.log('cretae successfully');
+      res.redirect('/')
+    })
+    .catch(error => console.log('create error'))
+});
 // 餐廳detail
 app.get("/restaurants/:id", (req, res) => {
   const id = req.params.id;
@@ -33,7 +44,7 @@ app.get("/restaurants/:id", (req, res) => {
     .then(restaurant =>
       res.render("show", { pageTitle: restaurant.name, restaurant: restaurant, useUnifiedTopology: true })
     )
-    .catch(error => console.log(error))
+    .catch(error => console.log('detail error'))
 });
 // search 餐廳
 app.get("/search", (req, res) => {
@@ -55,6 +66,7 @@ app.get("/search", (req, res) => {
     })
 
 });
+
 //編集餐廳
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id;
@@ -63,7 +75,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .then(restaurant => {
       res.render('edit', { restaurant })
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('edir error'));
 });
 app.put('/restaurants/:id', (req, res) => {
   const data = Object.keys(req.body);
@@ -76,7 +88,7 @@ app.put('/restaurants/:id', (req, res) => {
       return restaurant.save();
     })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => console.log('put error'))
 });
 // 刪除餐廳
 app.delete('/restaurants/:id', (req, res) => {
@@ -87,7 +99,7 @@ app.delete('/restaurants/:id', (req, res) => {
       return restaurant.remove()
     })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => console.log('delete error'))
 })
 //render index
 app.get("/", (req, res) => {
