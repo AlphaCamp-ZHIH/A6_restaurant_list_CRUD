@@ -2,6 +2,7 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
+const bodyParser = require('body-parser');
 
 const Restaurants = require("./models/restaurants");
 const app = express();
@@ -17,6 +18,7 @@ db.on("error", (error) => {
 db.once("open", () => {
   console.log("operate mongodb successfully");
 });
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static("public"));
 
@@ -53,7 +55,29 @@ app.get("/search", (req, res) => {
     })
 
 });
-
+//編集餐廳
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id;
+  return Restaurants.findById(id)
+    .lean()
+    .then(restaurant => {
+      res.render('edit', { restaurant })
+    })
+    .catch(error => console.log(error));
+});
+app.put('/restaurants/:id', (req, res) => {
+  const data = Object.keys(req.body);
+  const id = req.params.id;
+  return Restaurants.findById(id)
+    .then(restaurant => {
+      data.forEach(key => {
+        restaurant[key] = req.body[key];
+      })
+      return restaurant.save();
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+});
 // 刪除餐廳
 app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id;
