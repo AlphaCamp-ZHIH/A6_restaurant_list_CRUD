@@ -58,7 +58,7 @@
         <div class="row align-items-center justify-content-end mb-3">
           <a href="/restaurants/{{this._id}}/edit" class="col-3">edit</a>
           <a href="/restaurants/{{this._id}}" class="col-3">detail</a>
-          <form action="/resaurant/{{this._id}}?_method=DELETE" class="col-3 p-0 mr-2">
+          <form action="/restaurants/{{this._id}}?_method=DELETE" method="POST" class="col-3 p-0 mr-2">
             <button class="btn btn-primary ">delete</button>
           </form>
 

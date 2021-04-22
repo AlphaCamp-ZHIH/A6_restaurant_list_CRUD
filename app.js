@@ -1,14 +1,14 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
-
+const methodOverride = require('method-override');
 
 const Restaurants = require("./models/restaurants");
 const app = express();
 
 const port = 3000;
 
-mongoose.connect("mongodb://localhost/restaurants");
+mongoose.connect("mongodb://localhost/restaurants", { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.on("error", (error) => {
@@ -17,22 +17,23 @@ db.on("error", (error) => {
 db.once("open", () => {
   console.log("operate mongodb successfully");
 });
-
+app.use(methodOverride('_method'));
 app.use(express.static("public"));
 
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: "hbs" }));
 app.set("view engine", "hbs");
 
+// 餐廳detail
 app.get("/restaurants/:id", (req, res) => {
   const id = req.params.id;
   return Restaurants.findById(id)
     .lean()
     .then(restaurant =>
-      res.render("show", { pageTitle: restaurant.name, restaurant: restaurant })
+      res.render("show", { pageTitle: restaurant.name, restaurant: restaurant, useUnifiedTopology: true })
     )
     .catch(error => console.log(error))
 });
-
+// search 餐廳
 app.get("/search", (req, res) => {
   const keyword = req.query.keyword;
   return Restaurants.find()
@@ -53,6 +54,18 @@ app.get("/search", (req, res) => {
 
 });
 
+// 刪除餐廳
+app.delete('/restaurants/:id', (req, res) => {
+  const id = req.params.id;
+  return Restaurants.findById(id)
+    .then(restaurant => {
+
+      return restaurant.remove()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+//render index
 app.get("/", (req, res) => {
   return Restaurants.find()
     .lean()
