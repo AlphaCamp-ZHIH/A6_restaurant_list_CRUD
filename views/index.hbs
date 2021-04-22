@@ -34,11 +34,11 @@
 <!-- restaurant list -->
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-10 col-12 mx-auto">
-      <div class=" row ">
-        {{#each restaurants}}
-        <a href="/restaurants/{{this.id}}" class="col-md-4 col-12  text-secondary ">
-          <div class="card mb-3">
+    <div class="row col-md-10 col-12 mx-auto">
+      {{#each restaurants}}
+      <div class="col-md-4 col-12 ">
+        <a href="/restaurants/{{this._id}}" class=" text-secondary ">
+          <div class="card mb-1">
             <img class="card-img-top" src={{this.image}} alt="{{this.image}}">
             <div class="card-body p-3">
               <h6 class="card-title mb-1">{{this.name}}</h6>
@@ -55,8 +55,16 @@
             </div>
           </div>
         </a>
-        {{/each}}
+        <div class="row align-items-center justify-content-end mb-3">
+          <a href="/restaurants/{{this._id}}/edit" class="col-3">edit</a>
+          <a href="/restaurants/{{this._id}}" class="col-3">detail</a>
+          <form action="/resaurant/{{this._id}}?_method=DELETE" class="col-3 p-0 mr-2">
+            <button class="btn btn-primary ">delete</button>
+          </form>
+
+        </div>
       </div>
+      {{/each}}
     </div>
   </div>
 </div>

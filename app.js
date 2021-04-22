@@ -2,7 +2,8 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 
-const restaurants = require("./restaurant.json").results;
+
+const Restaurants = require("./models/restaurants");
 const app = express();
 
 const port = 3000;
@@ -24,33 +25,45 @@ app.set("view engine", "hbs");
 
 app.get("/restaurants/:id", (req, res) => {
   const id = req.params.id;
-  const restaurant = restaurants.find((item) => item.id === +id);
-  res.render("show", { pageTitle: restaurant.name, restaurant: restaurant });
+  return Restaurants.findById(id)
+    .lean()
+    .then(restaurant =>
+      res.render("show", { pageTitle: restaurant.name, restaurant: restaurant })
+    )
+    .catch(error => console.log(error))
 });
 
 app.get("/search", (req, res) => {
   const keyword = req.query.keyword;
+  return Restaurants.find()
+    .lean()
+    .then(restaurants => {
+      const filterList = restaurants.filter(
+        (restaurant) =>
+          restaurant.name.includes(keyword) ||
+          restaurant.name_en.toLowerCase().includes(keyword.toLowerCase()) ||
+          restaurant.category.toLowerCase().includes(keyword.toLowerCase())
+      );
+      res.render("index", {
+        pageTitle: "index",
+        isIndex: true,
+        restaurants: filterList,
+      });
+    })
 
-  const filterList = restaurants.filter(
-    (restaurant) =>
-      restaurant.name.includes(keyword) ||
-      restaurant.name_en.toLowerCase().includes(keyword.toLowerCase()) ||
-      restaurant.category.toLowerCase().includes(keyword.toLowerCase())
-  );
-
-  res.render("index", {
-    pageTitle: "index",
-    isIndex: true,
-    restaurants: filterList,
-  });
 });
 
 app.get("/", (req, res) => {
-  res.render("index", {
-    pageTitle: "index",
-    isIndex: true,
-    restaurants: restaurants,
-  });
+  return Restaurants.find()
+    .lean()
+    .then(restaurants =>
+
+      res.render("index", {
+        pageTitle: "index",
+        isIndex: true,
+        restaurants: restaurants,
+      })
+    )
 });
 
 app.listen(port, () => {
