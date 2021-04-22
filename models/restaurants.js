@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const restaurant = new Schema({
   id: {
     type: Number,
-    required: true,
   },
   name: {
     type: String,
@@ -36,7 +35,7 @@ const restaurant = new Schema({
     required: true,
   },
   rating: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: {
