@@ -20,11 +20,17 @@
         <label for="rating" class="col-2 text-center">評分:</label>
         <input class="col-9 mb-2" type="text" id="rating" name="rating" value="{{restaurant.rating}}">
         <label for="description" class="col-2 text-center">描述:</label>
-        <textarea class="col-9 mb-5" type="text" id="description" name="description"
+        <textarea class="col-9 mb-2" type="text" id="description" name="description"
           style="height: 100px;">{{restaurant.description}}</textarea>
-        <div class="col-12 d-flex justify-content-center">
-          <a href="/" class="w-25 btn btn-primary m-1">back</a>
-          <button class="w-25 btn btn-primary m-1" type="submit">save</button>
+        {{#if notRatingRange}}
+        <p class="col-12  text-danger text-center">評分範圍為 0.0-5.0</p>
+        {{/if}}
+        {{#if notComplete}}
+        <p class="col-12  text-danger text-center">請完整輸入內容</p>
+        {{/if}}
+        <div class="col-12 d-flex justify-content-center mt-3">
+          <a href="/" class="w-25 btn btn-secondary m-1">back</a>
+          <button class="w-25 btn btn-danger m-1" type="submit">save</button>
         </div>
 
       </form>

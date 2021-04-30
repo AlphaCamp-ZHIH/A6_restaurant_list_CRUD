@@ -28,13 +28,20 @@ app.set("view engine", "hbs");
 app.get('/restaurants/add', (req, res) => {
   res.render('add')
 });
-app.post('/restaurants', (req, res) => {
+app.post('/restaurants/add', (req, res) => {
+  const props = Object.keys(req.body);
+  if (props.some(prop => req.body[prop] === "")) {
+    return res.render('add', { restaurant: req.body, notComplete: true })
+  }
+  if (+req.body.rating > 5 || +req.body.rating < 0 || !+req.body.rating) {
+    return res.render('add', { restaurant: req.body, notRatingRange: true })
+  }
   return Restaurants.create({ ...req.body })
     .then(() => {
       console.log('cretae successfully');
       res.redirect('/')
     })
-    .catch(error => console.log('create error'))
+    .catch(error => console.log('add error'))
 });
 // 餐廳detail
 app.get("/restaurants/:id", (req, res) => {
@@ -78,11 +85,12 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.log('edir error'));
 });
 app.put('/restaurants/:id', (req, res) => {
-  const data = Object.keys(req.body);
+  const props = Object.keys(req.body);
   const id = req.params.id;
+  console.log(req.body)
   return Restaurants.findById(id)
     .then(restaurant => {
-      data.forEach(key => {
+      props.forEach(key => {
         restaurant[key] = req.body[key];
       })
       return restaurant.save();

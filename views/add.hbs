@@ -2,28 +2,35 @@
 <div class="container">
   <div class="row mb-5">
     {{!-- <div class="col-12 col-md-10 mx-auto"> --}}
-      <form action="/restaurants" method="POST" class="row col-12 col-md-10 mx-auto">
+      <form action="/restaurants/add" method="POST" class="row col-12 col-md-10 mx-auto">
         <label for="name" class="col-2 text-center ">餐廳名稱:</label>
-        <input class="col-9 mb-2" type="text" id="name" name="name">
+        <input class="col-9 mb-2" type="text" id="name" name="name" value="{{restaurant.name}}">
         <label for="name_en" class="col-2 text-center">英文名稱:</label>
-        <input class="col-9 mb-2" type="text" id="name_en" name="name_en">
+        <input class="col-9 mb-2" type="text" id="name_en" name="name_en" value="{{restaurant.name_en}}">
         <label for="category" class="col-2 text-center">類別:</label>
-        <input class="col-9 mb-2" type="text" id="category" name="category">
+        <input class="col-9 mb-2" type="text" id="category" name="category" value="{{restaurant.category}}">
         <label for="image" class="col-2 text-center">圖片:</label>
-        <input class="col-9 mb-2" type="text" id="image" name="image">
+        <input class="col-9 mb-2" type="text" id="image" name="image" value="{{restaurant.image}}">
         <label for="location" class="col-2 text-center">地點:</label>
-        <input class="col-9 mb-2" type="text" id="location" name="location">
+        <input class="col-9 mb-2" type="text" id="location" name="location" value="{{restaurant.location}}">
         <label for="phone" class="col-2 text-center">電話:</label>
-        <input class="col-9 mb-2" type="text" id="phone" name="phone">
+        <input class="col-9 mb-2" type="text" id="phone" name="phone" value="{{restaurant.phone}}">
         <label for="google_map" class="col-2 text-center">地圖:</label>
-        <input class="col-9 mb-2" type="text" id="google_map" name="google_map">
+        <input class="col-9 mb-2" type="text" id="google_map" name="google_map" value="{{restaurant.google_map}}">
         <label for="rating" class="col-2 text-center">評分:</label>
-        <input class="col-9 mb-2" type="text" id="rating" name="rating">
+        <input class="col-9 mb-2" type="text" id="rating" name="rating" value="{{restaurant.rating}}">
         <label for="description" class="col-2 text-center">描述:</label>
-        <textarea class="col-9 mb-5" type="text" id="description" name="description" style="height: 100px;"></textarea>
-        <div class="col-12 d-flex justify-content-center">
-          <a href="/" class="w-25 btn btn-primary m-1">back</a>
-          <button class="w-25 btn btn-primary m-1" type="submit">create</button>
+        <textarea class="col-9 mb-2" type="text" id="description" name="description"
+          style="height: 100px;">{{restaurant.description}}</textarea>
+        {{#if notRatingRange}}
+        <p class="col-12  text-danger text-center">評分範圍為 0.0-5.0</p>
+        {{/if}}
+        {{#if notComplete}}
+        <p class="col-12  text-danger text-center">請完整輸入內容</p>
+        {{/if}}
+        <div class="col-12 d-flex justify-content-center mt-3">
+          <a href="/" class="w-25 btn btn-secondary m-1">back</a>
+          <button class="w-25 btn btn-danger m-1" type="submit">create</button>
         </div>
 
       </form>
